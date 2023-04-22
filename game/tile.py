@@ -1,4 +1,4 @@
-from catan.game.hex import Hex
+from hex import *
 
 
 class Tile:

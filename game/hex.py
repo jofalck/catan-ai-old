@@ -7,8 +7,7 @@ class Hex:
         self.q = q
         self.r = r
         self.s = s
-        assert self.q + self.r + self.s == 0 # checks whether the sum of q, r,
-                                             # and s equals zero, and raises an AssertionError if it does not.
+        assert not (round(q + r + s) != 0), "q + r + s must be 0"
     
     def __eq__(self, other):
         if not isinstance(other, Hex):
@@ -36,38 +35,21 @@ hex_directions = [
     Hex(-1, 0, 1), Hex(-1, 1, 0), Hex(0, 1, -1)
 ]
 
-class Orientation:
-    def __init__(self, f0_, f1_, f2_, f3_, b0_, b1_, b2_, b3_, start_angle_):
-        self.f0 = f0_
-        self.f1 = f1_
-        self.f2 = f2_
-        self.f3 = f3_
-        self.b0 = b0_
-        self.b1 = b1_
-        self.b2 = b2_
-        self.b3 = b3_
-        self.start_angle = start_angle_
+def hex_add(a, b):
+    return Hex(a.q + b.q, a.r + b.r, a.s + b.s)
 
-orientation = Orientation(1.0, 0.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 0.5)
-layout_pointy = Orientation(sqrt(3.0), sqrt(3.0) / 2.0, 0.0, 3.0 / 2.0,
-                sqrt(3.0) / 3.0, -1.0 / 3.0, 0.0, 2.0 / 3.0,
-                0.5)
+def hex_subtract(a, b):
+    return Hex(a.q - b.q, a.r - b.r, a.s - b.s)
 
-class Layout:
-    def __init__(self, orientation, size, origin):
-        self.orientation = orientation
-        self.size = size
-        self.origin = origin
-        
+def hex_scale(a, k):
+    return Hex(a.q * k, a.r * k, a.s * k)
+
+def hex_direction(direction):
+    return hex_directions[direction]
 
 
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    
-    def __str__(self):
-        return f"({self.x}, {self.y})"
+def hex_neighbor(hex, direction):
+    return hex_add(hex, hex_direction(direction))
 
 
 def hex_map_generate():
