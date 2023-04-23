@@ -1,8 +1,9 @@
 import collections
 import matplotlib.pyplot as plt
-from matplotlib.patches import RegularPolygon
+from matplotlib.patches import Circle, RegularPolygon
 import numpy as np
 from board import Board
+from rescource_type import Rescource_type
 from tile import *
 
 
@@ -50,6 +51,15 @@ def plot_hex(t:Tile, layout:Layout, ax):
     fill_color = (*color, 0.5) if t.has_robber else (*color, 1.0) # set alpha to 0.5 if the tile has a robber
     ax.add_patch(RegularPolygon(center,6, radius=10, orientation=np.pi, fill=True, facecolor = fill_color,
                                  edgecolor='black'))
+    if not t.resource_type == Rescource_type.Desert:
+        ax.add_patch(Circle(center, radius=3, fill=True, facecolor='white', edgecolor='black'))
+    if t.value_to_match_dice == 6 or t.value_to_match_dice == 8:
+        text_color = 'red'
+    else:
+        text_color = 'black'
+    ax.text(center[0], center[1], t.value_to_match_dice, ha='center', va='center', fontsize=10, color=text_color)
+    if t.has_robber:
+        ax.text(center[0], center[1], 'R', ha='center', va='center', fontsize=10, color='black')
     
 def draw_map(tiles:list[Tile]):
     fig, ax = plt.subplots()
@@ -59,6 +69,9 @@ def draw_map(tiles:list[Tile]):
     ax.set_ylim(-40, 60)
     plt.show()
 
+
 board = Board()
-board.print_as_board()
-draw_map(board.tiles)
+def graphics(board):
+    draw_map(board.tiles)
+
+graphics(board)

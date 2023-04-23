@@ -32,7 +32,9 @@ class Board:
         for hex in hexes:
             rescource = tile_types.pop()  
             if rescource == Rescource_type.Desert:
-                tiles.append(Tile(rescource, None, hex))
+                tile = (Tile(rescource, None, hex))
+                tile.has_robber = True
+                tiles.append(tile)
                 continue        
             number = numbers_to_put_on_tiles.pop()
             tiles.append(Tile(rescource, number, hex))
