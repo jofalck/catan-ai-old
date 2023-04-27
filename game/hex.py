@@ -1,6 +1,6 @@
 from numpy import cos, sin, sqrt, pi
 
-N=2
+N=3
 
 class Hex:
     def __init__(self, q, r, s):
@@ -29,6 +29,41 @@ class Hex:
     def __hash__(self) -> int:
         return hash((self.q, self.r, self.s))
     
+    def __str__(self):
+        return f"Hex({self.q}, {self.r}, {self.s})"
+    
+    def __repr__(self):
+        return f"Hex({self.q}, {self.r}, {self.s})"
+
+class Vertex:
+    def __init__(self, q:int, r:int, s:int, direction:str):
+        self.q = q
+        self.r = r
+        self.s = s
+        self.direction = direction # N or S
+        
+    def __eq__(self, other):
+        if not isinstance(other, Vertex):
+            return NotImplemented
+        return self.q == other.q and self.r == other.r and self.s == other.s and self.direction == other.direction
+    
+    def __hash__(self) -> int:
+        return hash((self.q, self.r, self.s, self.direction))
+    
+    def touched_hexes(self):
+        if self.direction == "N":
+            return (Hex(self.q, self.r-1, (-self.q+self.r-1)), 
+                    Hex(self.q+1, self.r, (-(self.q+1)+self.r)), 
+                    Hex(self.q, self.r, (-self.q+self.r)))
+        elif self.direction == "S":
+            return (Hex(self.q, self.r, (-self.q+self.r)), 
+                    Hex(self.q-1, self.r+1, (-(self.q-1)+self.r+1)), 
+                    Hex(self.q, self.r+1, (-self.q+self.r+1)))
+        
+    def adjacent_vertices(self):
+        if self.direction == "N":
+            return (Vertex(self.q+1, self.r-2, -(self.q+1)+self.r-2, "S"),
+                    Vertex())
         
 hex_directions = [
     Hex(1, 0, -1), Hex(1, -1, 0), Hex(0, -1, 1), 

@@ -59,7 +59,7 @@ def plot_hex(t:Tile, layout:Layout, ax):
         text_color = 'black'
     ax.text(center[0], center[1], t.value_to_match_dice, ha='center', va='center', fontsize=10, color=text_color)
     if t.has_robber:
-        ax.text(center[0], center[1], 'R', ha='center', va='center', fontsize=10, color='black')
+        ax.text(center[0], center[1]+3, 'R', ha='center', va='center', fontsize=10, color='black', backgroundcolor = 'white')
     
 def draw_map(tiles:list[Tile]):
     fig, ax = plt.subplots()

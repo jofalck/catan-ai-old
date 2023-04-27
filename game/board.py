@@ -1,10 +1,11 @@
+from port import *
 from hex import *
 from tile import *
 from rescource_type import Rescource_type
 from random import shuffle
 
 
-N = 2
+N = 3
 class Board:
     def __init__(self) -> None:
         self.tiles = self.generate_tiles()
@@ -27,17 +28,21 @@ class Board:
         shuffle(tile_types)
         
         tiles = []
+        ocean = []
         hexes = hex_map_generate()
         
         for hex in hexes:
-            rescource = tile_types.pop()  
+            if(abs(hex.q) == 3 or abs(hex.r) == 3 or abs(hex.s) == 3):
+                ocean.append(hex)
+                continue
+            rescource = tile_types.pop()
             if rescource == Rescource_type.Desert:
                 tile = (Tile(rescource, None, hex))
                 tile.has_robber = True
                 tiles.append(tile)
-                continue        
-            number = numbers_to_put_on_tiles.pop()
-            tiles.append(Tile(rescource, number, hex))
+            else:
+                number = numbers_to_put_on_tiles.pop()
+                tiles.append(Tile(rescource, number, hex))
         return tiles
     
     def get_tile(self, position) -> Tile:
@@ -47,7 +52,7 @@ class Board:
         self.tiles[position] = tile
     
     def __str__(self) -> str:
-        tile_strings = [str(tile) for tile in self.tiles] 
+        tile_strings = [str(tile) for tile in self.tiles]
         return f"Board({', '.join(tile_strings)})"
     
     def __repr__(self) -> str:
