@@ -1,8 +1,8 @@
 from enum import Enum
 from hex import *
 
-port_locations = [Hex(0,-3,3), Hex(2,-3,1),Hex(3,-2,-1), Hex(3,0,-3), Hex(1,2,-3), 
-                Hex(-1,3,-2), Hex(-3,3,0), Hex(-3,1,2), Hex(-2,-1,3)]
+port_locations = [Hex(0,-3), Hex(2,-3),Hex(3,-2), Hex(3,0), Hex(1,2), 
+                Hex(-1,3), Hex(-3,3), Hex(-3,1), Hex(-2,-1)]
 
 class Port_Type(Enum):
     Brick = 0

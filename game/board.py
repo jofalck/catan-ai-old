@@ -32,7 +32,7 @@ class Board:
         hexes = hex_map_generate()
         
         for hex in hexes:
-            if(abs(hex.q) == 3 or abs(hex.r) == 3 or abs(hex.s) == 3):
+            if(abs(hex.q) == 3 or abs(hex.r) == 3 or abs((hex.q)+(hex.r)) == 3):
                 ocean.append(hex)
                 continue
             rescource = tile_types.pop()

@@ -3,81 +3,77 @@ from numpy import cos, sin, sqrt, pi
 N=3
 
 class Hex:
-    def __init__(self, q, r, s):
+    def __init__(self, q, r):
         self.q = q
         self.r = r
-        self.s = s
-        assert not (round(q + r + s) != 0), "q + r + s must be 0"
     
     def __eq__(self, other):
         if not isinstance(other, Hex):
             return NotImplemented
-        return self.q == other.q and self.r == other.r and self.s == other.s
+        return self.q == other.q and self.r == other.r
         
     def add(self, b):
-        return Hex(self.q + b.q, self.r + b.r, self.s + b.s)
+        return Hex(self.q + b.q, self.r + b.r)
     
     def subtract(self, b):
-        return Hex(self.q - b.q, self.r - b.r, self.s - b.s)
+        return Hex(self.q - b.q, self.r - b.r)
     
     def scale(self, k):
-        return Hex(self.q * k, self.r * k, self.s * k)
+        return Hex(self.q * k, self.r * k)
     
     def direction(self, direction:int): #between 0 and 5
         return hex_directions[direction]
     
     def __hash__(self) -> int:
-        return hash((self.q, self.r, self.s))
+        return hash((self.q, self.r))
     
     def __str__(self):
-        return f"Hex({self.q}, {self.r}, {self.s})"
+        return f"Hex({self.q}, {self.r})"
     
     def __repr__(self):
-        return f"Hex({self.q}, {self.r}, {self.s})"
+        return f"Hex({self.q}, {self.r})"
 
 class Vertex:
-    def __init__(self, q:int, r:int, s:int, direction:str):
+    def __init__(self, q:int, r:int, direction:str):
         self.q = q
         self.r = r
-        self.s = s
         self.direction = direction # N or S
         
     def __eq__(self, other):
         if not isinstance(other, Vertex):
             return NotImplemented
-        return self.q == other.q and self.r == other.r and self.s == other.s and self.direction == other.direction
+        return self.q == other.q and self.r == other.r and self.direction == other.direction
     
     def __hash__(self) -> int:
-        return hash((self.q, self.r, self.s, self.direction))
+        return hash((self.q, self.r, self.direction))
     
     def touched_hexes(self):
         if self.direction == "N":
-            return (Hex(self.q, self.r-1, (-self.q+self.r-1)), 
-                    Hex(self.q+1, self.r, (-(self.q+1)+self.r)), 
-                    Hex(self.q, self.r, (-self.q+self.r)))
+            return (Hex(self.q, self.r-1), 
+                    Hex(self.q+1, self.r), 
+                    Hex(self.q, self.r))
         elif self.direction == "S":
-            return (Hex(self.q, self.r, (-self.q+self.r)), 
-                    Hex(self.q-1, self.r+1, (-(self.q-1)+self.r+1)), 
-                    Hex(self.q, self.r+1, (-self.q+self.r+1)))
+            return (Hex(self.q, self.r), 
+                    Hex(self.q-1, self.r+1), 
+                    Hex(self.q, self.r+1))
         
-    def adjacent_vertices(self):
-        if self.direction == "N":
-            return (Vertex(self.q+1, self.r-2, -(self.q+1)+self.r-2, "S"),
-                    Vertex())
+    # def adjacent_vertices(self):
+    #     if self.direction == "N":
+    #         return (Vertex(self.q+1, self.r-2, "S"),
         
 hex_directions = [
-    Hex(1, 0, -1), Hex(1, -1, 0), Hex(0, -1, 1), 
-    Hex(-1, 0, 1), Hex(-1, 1, 0), Hex(0, 1, -1)
+    Hex(1, 0), Hex(1, -1), Hex(0, -1), 
+    Hex(-1, 0), Hex(-1, 1), Hex(0, 1)
 ]
 
 def hex_add(a, b):
-    return Hex(a.q + b.q, a.r + b.r, a.s + b.s)
+    return Hex(a.q + b.q, a.r + b.r)
 
 def hex_subtract(a, b):
-    return Hex(a.q - b.q, a.r - b.r, a.s - b.s)
+    return Hex(a.q - b.q, a.r - b.r)
 
 def hex_scale(a, k):
-    return Hex(a.q * k, a.r * k, a.s * k)
+    return Hex(a.q * k, a.r * k)
 
 def hex_direction(direction):
     return hex_directions[direction]
@@ -93,5 +89,5 @@ def hex_map_generate():
         r1 = max(-N, -q - N)
         r2 = min(N, -q + N)
         for r in range(r1, r2+1):
-            map_set.add(Hex(q, r, -q-r))
+            map_set.add(Hex(q, r))
     return map_set
