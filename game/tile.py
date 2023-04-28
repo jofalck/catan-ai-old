@@ -4,9 +4,9 @@ from hex import *
 class Tile:
     """A tile on the board. It has a resource type and a number token.
     """
-    def __init__(self, resource_type, value_to_match_dice, hex:Hex):
+    def __init__(self, resource_type, hex:Hex):
         self.resource_type = resource_type
-        self.value_to_match_dice = value_to_match_dice
+        self.value_to_match_dice = None
         self.has_robber = False
         self.hex = hex
 
@@ -21,6 +21,16 @@ class Tile:
 
     def remove_robber(self):
         self.has_robber = False
+        
+    def set_value_to_match_dice(self, value):
+        self.value_to_match_dice = value
+        
+    def get_neighbours(self, board):
+        neighbors = []
+        for direction in hex_directions:
+            neighbor = hex_neighbor(self.hex, direction)
+            neighbors.append(get_tile_from_hex(neighbor, board))
+        return neighbors
         
 def get_tile_from_hex(hex:Hex, board):
     """Returns the tile at the given coordinates.
