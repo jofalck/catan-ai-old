@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Rescource_type(Enum):
+class Resource_type(Enum):
     """
     Brick is brown
     Lumber is green
@@ -17,6 +17,6 @@ class Rescource_type(Enum):
     Grain = (0.9, 0.8, 0.2) # yellow
     Wool = (0.4, 0.7, 0.4) # green
     Desert = (1.0, 0.9, 0.6) # weak yellow
-
+    Random = (0.0, 0.0, 0.0) # black
 
     

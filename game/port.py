@@ -1,6 +1,7 @@
 from enum import Enum
-from catan.game.tile import Vertex
+from tile import Vertex
 from hex import *
+from resource_type import Resource_type
 
 port_locations = [Hex(-2,-1), Hex(0,-3), Hex(2,-3),Hex(3,-2), Hex(3,0), Hex(1,2), 
                 Hex(-1,3), Hex(-3,3), Hex(-3,1)]
@@ -17,31 +18,24 @@ port_vertices = [[Vertex(-2,0,'N'),Vertex(-1,-2,'S')], #Hex(-2,-1)
                 ]
 
 
-class Port_Type(Enum):
-    Brick = 0 #2:1
-    Lumber = 1 #2:1
-    Ore = 2 #2:1
-    Grain = 3 #2:1
-    Wool = 4 #2:1
-    Random = 5 #3:1
-    
-port_types = [Port_Type.Brick, Port_Type.Lumber, Port_Type.Ore, Port_Type.Grain, Port_Type.Wool, 
-              Port_Type.Random, Port_Type.Random, Port_Type.Random]
+
+resource_types = [Resource_type.Brick, Resource_type.Lumber, Resource_type.Ore, Resource_type.Grain, Resource_type.Wool, 
+              Resource_type.Random, Resource_type.Random, Resource_type.Random, Resource_type.Random]
 
 class Port:
-    def __init__(self, port_type:Port_Type, i:int):
-        self.port_type = port_type
+    def __init__(self, resource_type:Resource_type, i:int):
+        self.resource_type = resource_type
         self.hex = port_locations[i]
         self.vertices = port_vertices[i]
 
     def __repr__(self) -> str:
-        return f"Port({self.port_type}, {self.hex})"
+        return f"Port({self.resource_type}, {self.hex})"
     
     def __str__(self) -> str:
-        return f"Port({self.port_type}, {self.hex})"
+        return f"Port({self.resource_type}, {self.hex})"
     
     def __eq__(self, other) -> bool:
-        return self.port_type == other.port_type and self.hex == other.hex
+        return self.resource_type == other.resource_type and self.hex == other.hex
     
     def get_vertices(self):
         return self.vertices

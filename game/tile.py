@@ -58,6 +58,7 @@ class Vertex:
         self.has_settlement = False
         self.has_city = False
         self.has_port = False # a player can store locally the port they have access to
+        self.port = None
         self.id = f"{q},{r},{direction}"
         
         
